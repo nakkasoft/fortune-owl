@@ -72,5 +72,5 @@ app.post('/fortuneTell', async function (req, res) {
 
 module.exports.handler = serverless(app);
 
-// app.listen(3000)
+app.listen(3000)
 
