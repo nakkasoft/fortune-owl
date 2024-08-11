@@ -70,9 +70,11 @@ app.post('/fortuneTell', async function (req, res) {
 });
 
 // Server Less
-//module.exports.handler = serverless(app);
+module.exports.handler = serverless(app);
 
 // EXpress
+/*
 app.listen(3000, () => {
     console.log("익스프레스 서버 실행");
 });
+*/
