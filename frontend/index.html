@@ -128,6 +128,9 @@
     </div>
     <div id="result" class="result-container" style="display: none;">
     </div>
+    <div id="server_error" class="server_error" style="display: none;">
+        <p>서버에 문제가 있습니다. 다시시도 하세요.</p>
+    </div>
     <div id="menu" class="menu-container" style="display: none;">
         <div class="today-fortune">
             <button id="btn" onclick="today_fortune()">오늘의 운세</button>
@@ -152,7 +155,7 @@
     </div>
 
     <script>
-        const url = 'http://146.56.116.10:3000/fortuneTell';
+        const url = 'https://146.56.116.10:3000/fortuneTell';
         const result_container = document.querySelector('.result-container');
         let userMessages = [];
         let assistantMessages = [];
@@ -167,11 +170,20 @@
         function show_toss() {
             document.getElementById('toss_link').style.display = "block";
         }
+        function show_nemu() {
+            document.getElementById('menu').style.display = "block";
+        }
         function hide_nemu() {
             document.getElementById('menu').style.display = "none";
         }
         function show_result() {
             document.getElementById('result').style.display = "block";
+        }
+        function show_error() {
+            document.getElementById('server_error').style.display = "block";
+        }
+        function hide_error() {
+            document.getElementById('server_error').style.display = "none";
         }
         function today_fortune() {
             hide_nemu();
@@ -204,9 +216,16 @@
                     "myDateTime": myDateTime,
                     "userMessage": "오늘 운세를 아주 상세 하고 길게 알려줘."
                 })
+            }).catch((error) => {
+                // Your error is here!
+                console.log(error)
+                hide_spinner();
+                show_error();
+                show_nemu();
             });
 
             const data = await response.json();
+            
 /*
             const data = {"assistant": "2024년 8월 11일, 당신의 운세를 상세히 전해드리겠습니다.\
 \
