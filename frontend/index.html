@@ -7,121 +7,43 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
         integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-        }
-
-        .menu-container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .chat-message {
-            background-color: #fff;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        .chat-message p {
-            margin: 0;
-            padding: 0;
-        }
-
-        .chat-input {
-            display: flex;
-            margin-top: 20px;
-        }
-
-        .chat-input input {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            margin-right: 10px;
-        }
-
-        .chat-input button {
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .assistant {
-            color: blue;
-        }
-
-        .intro-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .intro-container img {
-            width: 50%;
-            min-width: 300px;
-        }
-
-        #loader {
-            font-size: 25px;
-            text-align: center;
-        }
-
-        .kakao-ad {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            min-width: 350px;
-            min-height: 200px;
-        }
-    </style>
+    <!-- CSS 파일 링크 -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div id="intro" class="intro-container">
-        <h1>운세를 알려드립니다.</h1>
+        <h1>딸기 운세를 알려드립니다.</h1>
         <img src="fortune-owl.jpg" alt="chatdoge">
-        <label for="date">생년월일</label>
-        <input id="date" type="date">
-        <label for="hour">태어난 시간</label>
-        <select id="hour" name="hour">
-            <option value="">모름</option>
-            <option value="00">00</option>
-            <option value="01">01</option>
-            <option value="02">02</option>
-            <option value="03">03</option>
-            <option value="04">04</option>
-            <option value="05">05</option>
-            <option value="06">06</option>
-            <option value="07">07</option>
-            <option value="08">08</option>
-            <option value="09">09</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-            <option value="15">15</option>
-            <option value="16">16</option>
-            <option value="17">17</option>
-            <option value="18">18</option>
-            <option value="19">19</option>
-            <option value="20">20</option>
-            <option value="21">21</option>
-            <option value="22">22</option>
-            <option value="23">23</option>
-        </select>
-        <button onclick="start()">운세 보러 가기</button>
+
+        <button onclick="openBirthdateModal()">생년월일 선택</button>
+        <p id="birthdateDisplay">생년월일이 선택되지 않았습니다.</p>
+        <!-- 생년월일 입력 모달 -->
+        <div id="birthdateModal">
+            <div class="modal-content">
+                <span class="close" onclick="closeBirthdateModal()">&times;</span>
+                <h2>생년월일/시간 선택</h2>
+                <form>
+                    <label for="year">연도:</label>
+                    <select id="year"></select>
+
+                    <label for="month">월:</label>
+                    <select id="month"></select>
+
+                    <label for="day">일:</label>
+                    <select id="day"></select>
+                <br>
+
+                    <label for="time">시간:</label>
+                    <select id="time"></select>
+
+                    <button type="button" onclick="submitBirthdate()">확인</button>
+                </form>
+            </div>
+        </div>
+        <button onclick="startToday()">오늘의 운세</button>
+        <button onclick="startTomorrow()">내일의 운세</button>
+        
     </div>
     <div id="loader" class="loader" style="display: none;">
         <i class="fa fa-spinner fa-spin"></i>
@@ -131,18 +53,16 @@
     <div id="server_error" class="server_error" style="display: none;">
         <p>서버에 문제가 있습니다. 다시시도 하세요.</p>
     </div>
-    <div id="menu" class="menu-container" style="display: none;">
+    <div id="downloading" class="downloading-container" style="display: none;">
         <div class="today-fortune">
-            <button id="btn" onclick="today_fortune()">오늘의 운세</button>
+            광고
         </div>
-        <div class="today-fortune">
-            <button id="btn" onclick="today_fortune()">내일의 운세</button>
+        <div id="loader" class="loader" style="display: block;">
+            <i class="fa fa-spinner fa-spin"></i>
         </div>
+        <h1>운세를 받아 오는 중입니다.</h1>
         <div class="today-fortune">
-            <button id="btn" onclick="today_fortune()">이달의 운세</button>
-        </div>
-        <div class="today-fortune">
-            <button id="btn" onclick="today_fortune()">올해의 운세</button>
+            광고
         </div>
     </div>
     <div id="toss_link" class="toss-container" style="display: none;">
@@ -153,28 +73,104 @@
             data-ad-height="100"></ins>
         <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
     </div>
-
     <script>
-        const url = 'http://146.56.116.10:3000/fortuneTell';
+        // 연도, 월, 일 선택 요소 전역 변수로 선언
+        const yearSelect = document.getElementById('year');
+        const monthSelect = document.getElementById('month');
+        const daySelect = document.getElementById('day');
+        const timeSelect = document.getElementById('time');
+        const modal = document.getElementById('birthdateModal');
+        let isDteSelect = false;
+
+        // 연도 선택 옵션 생성
+        const currentYear = new Date().getFullYear();
+        for (let year = currentYear; year >= 1900; year--) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.text = year;
+            yearSelect.appendChild(option);
+        }
+
+        // 월 선택 옵션 생성
+        for (let month = 1; month <= 12; month++) {
+            const option = document.createElement('option');
+            option.value = month;
+            option.text = month;
+            monthSelect.appendChild(option);
+        }
+
+        // 일 선택 옵션 업데이트 함수
+        function updateDayOptions() {
+            const selectedYear = parseInt(yearSelect.value);
+            const selectedMonth = parseInt(monthSelect.value);
+
+            // 기존 일 옵션 제거
+            daySelect.innerHTML = '';
+
+            // 선택한 연도와 월에 따라 일 수 계산
+            const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const option = document.createElement('option');
+                option.value = day;
+                option.text = day;
+                daySelect.appendChild(option);
+            }
+        }
+
+        for (let time = -1; time < 24; time++) {
+            const timeOption = document.createElement('option');
+            if(time == -1){
+                timeOption.value = "모름";
+                timeOption.text = "모름";
+            }else{
+                timeOption.value = time;
+                timeOption.text = time;
+            }
+
+            timeSelect.appendChild(timeOption);            
+        }
+        
+
+        // 연도 또는 월이 변경될 때 일 선택 옵션 업데이트
+        yearSelect.addEventListener('change', updateDayOptions);
+        monthSelect.addEventListener('change', updateDayOptions);
+
+        // 초기 일 선택 옵션 설정
+        updateDayOptions();
+
+        // 모달 열기
+        function openBirthdateModal() {
+            modal.style.display = "block";
+        }
+
+        // 모달 닫기
+        function closeBirthdateModal() {
+            modal.style.display = "none";
+        }
+
+        // 생년월일 값 전송 함수
+        function submitBirthdate() {
+            const birthdate = `${yearSelect.value}-${monthSelect.value}-${daySelect.value} ${timeSelect.value}`;
+            document.getElementById('birthdateDisplay').innerText = birthdate;
+            closeBirthdateModal();
+            isDteSelect = true;
+        }
+
+        // 모달 외부 클릭 시 모달 닫기
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeBirthdateModal();
+            }
+        }
+
+        const url = 'http://146.56.116.10:3000/fortuneTelldev';
         const result_container = document.querySelector('.result-container');
         let userMessages = [];
         let assistantMessages = [];
         let myDateTime = ''
 
-        function hide_spinner() {
-            document.getElementById('loader').style.display = "none";
-        }
-        function show_spinner() {
-            document.getElementById('loader').style.display = "block";
-        }
         function show_toss() {
             document.getElementById('toss_link').style.display = "block";
-        }
-        function show_nemu() {
-            document.getElementById('menu').style.display = "block";
-        }
-        function hide_nemu() {
-            document.getElementById('menu').style.display = "none";
         }
         function show_result() {
             document.getElementById('result').style.display = "block";
@@ -185,27 +181,38 @@
         function hide_error() {
             document.getElementById('server_error').style.display = "none";
         }
-        function today_fortune() {
-            hide_nemu();
-            show_spinner();
+        function show_downloading() {
+            document.getElementById('downloading').style.display = "block";
+        }
+        function hide_downloading() {
+            document.getElementById('downloading').style.display = "none";
+        }
+        function loading_fortune() {
+            document.getElementById("intro").style.display = "none";
+            show_downloading();
             askTodayFortune();
         }
 
-        function start() {
-            const date = document.getElementById('date').value;
-            const hour = document.getElementById('hour').value;
-            if (date === '') {
+        function startToday() {
+            const date = `${yearSelect.value}-${monthSelect.value}-${daySelect.value}`;
+            const hour = `${timeSelect.value}`;
+
+            if (isDteSelect == false){
                 alert('생년월일을 입력해주세요.');
                 return;
             }
-            myDateTime = date + hour;
 
-            document.getElementById("intro").style.display = "none";
-            document.getElementById("menu").style.display = "block";
+            myDateTime = date + hour;
+            loading_fortune();
+        }
+
+        function startTomorrow() {
+            loading_fortune();
         }
 
         const askTodayFortune = async () => {
             console.log("askFortune")
+            let isSuccess = true;
 
             const response = await fetch(url, {
                 method: 'POST',
@@ -218,15 +225,16 @@
                 })
             }).catch((error) => {
                 // Your error is here!
-                console.log(error)
-                hide_spinner();
+                console.log(error);
+                hide_downloading();
                 show_error();
-                show_nemu();
+                isSuccess = true;
             });
 
-            const data = await response.json();
+            if ( isSuccess == true){
+                //const data = await response.json();
             
-/*
+
             const data = {"assistant": "2024년 8월 11일, 당신의 운세를 상세히 전해드리겠습니다.\
 \
 금요일인 오늘은 즐거운 일들이 당신을 기다리고 있습니다. 긍정적인 에너지가 넘치는 하루가 될 것이며, 주변 사람들과의 소통이 활발할 것입니다. 어떤 일이든 열심히 하고 적극적으로 참여하면 좋은 결과를 얻을 수 있을 것입니다.\
@@ -238,15 +246,17 @@
 오늘은 변화의 기회가 찾아올 수 있는 날이니 새로운 도전에 대해 열린 마음으로 받아들이면 좋은 결과를 얻을 수 있을 것입니다. 당신에게 긍정적인 변화가 찾아오길 기대해봅니다.\
 \
 이렇게 종합적으로 살펴본 오늘의 운세는 긍정적이고 행운이 당신과 함께할 것이라고 전해드립니다. 행운을 만나는 소중한 순간을 즐기며 하루를 시작해보세요. 좋은 하루 되시길 바랍니다!"}
-*/
-            show_result();
-            hide_spinner();
-            show_toss();
 
-            const astrologerMessage = document.createElement('div');
-            astrologerMessage.classList.add('chat-message');
-            astrologerMessage.innerHTML = `<p class='assistant'>${data.assistant}</p>`;
-            result_container.appendChild(astrologerMessage);
+                show_result();
+                hide_downloading();
+                show_toss();
+    
+                const astrologerMessage = document.createElement('div');
+                astrologerMessage.classList.add('chat-message');
+                astrologerMessage.innerHTML = `<p class='assistant'>${data.assistant}</p>`;
+                result_container.appendChild(astrologerMessage);
+            }
+            
         };
     </script>
 </body>

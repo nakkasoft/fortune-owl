@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>생년월일 입력</title>
+    <style>
+        /* 모달 기본 스타일 */
+        #birthdateModal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* 모달 내용 스타일 */
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 닫기 버튼 스타일 */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>생년월일 입력</h2>
+    <button onclick="openBirthdateModal()">생년월일 선택</button>
+    <p id="birthdateDisplay">생년월일이 선택되지 않았습니다.</p>
+
+    <!-- 생년월일 입력 모달 -->
+    <div id="birthdateModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeBirthdateModal()">&times;</span>
+            <h2>생년월일 선택</h2>
+            <form>
+                <label for="year">연도:</label>
+                <select id="year"></select>
+
+                <label for="month">월:</label>
+                <select id="month"></select>
+
+                <label for="day">일:</label>
+                <select id="day"></select>
+
+                <button type="button" onclick="submitBirthdate()">확인</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 연도, 월, 일 선택 요소 전역 변수로 선언
+        const yearSelect = document.getElementById('year');
+        const monthSelect = document.getElementById('month');
+        const daySelect = document.getElementById('day');
+        const modal = document.getElementById('birthdateModal');
+
+        // 연도 선택 옵션 생성
+        const currentYear = new Date().getFullYear();
+        for (let year = currentYear; year >= 1900; year--) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.text = year;
+            yearSelect.appendChild(option);
+        }
+
+        // 월 선택 옵션 생성
+        for (let month = 1; month <= 12; month++) {
+            const option = document.createElement('option');
+            option.value = month;
+            option.text = month;
+            monthSelect.appendChild(option);
+        }
+
+        // 일 선택 옵션 업데이트 함수
+        function updateDayOptions() {
+            const selectedYear = parseInt(yearSelect.value);
+            const selectedMonth = parseInt(monthSelect.value);
+
+            // 기존 일 옵션 제거
+            daySelect.innerHTML = '';
+
+            // 선택한 연도와 월에 따라 일 수 계산
+            const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const option = document.createElement('option');
+                option.value = day;
+                option.text = day;
+                daySelect.appendChild(option);
+            }
+        }
+
+        // 연도 또는 월이 변경될 때 일 선택 옵션 업데이트
+        yearSelect.addEventListener('change', updateDayOptions);
+        monthSelect.addEventListener('change', updateDayOptions);
+
+        // 초기 일 선택 옵션 설정
+        updateDayOptions();
+
+        // 모달 열기
+        function openBirthdateModal() {
+            modal.style.display = "block";
+        }
+
+        // 모달 닫기
+        function closeBirthdateModal() {
+            modal.style.display = "none";
+        }
+
+        // 생년월일 값 전송 함수
+        function submitBirthdate() {
+            const birthdate = `${yearSelect.value}-${monthSelect.value}-${daySelect.value}`;
+            document.getElementById('birthdateDisplay').innerText = birthdate;
+            closeBirthdateModal();
+        }
+
+        // 모달 외부 클릭 시 모달 닫기
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeBirthdateModal();
+            }
+        }
+    </script>
+</body>
+</html>
