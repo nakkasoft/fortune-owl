@@ -1,69 +1,100 @@
 body {
     margin: 0;
     padding: 0;
+    background-color: #797979;
     font-family: Arial, sans-serif;
     font-size: 14px;
-}
-
-.menu-container {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.chat-message {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
-.chat-message p {
-    margin: 0;
-    padding: 0;
-}
-
-.chat-input {
+    min-height: 100%;
+    justify-content: center;
+    padding-top: 30px;
+    padding-bottom: 30px;
     display: flex;
-    margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
 }
 
-.chat-input input {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    margin-right: 10px;
+h1 {
+    color: white;
 }
 
-.chat-input button {
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
+h2 {
+    color: rgb(71, 71, 71);
+}
+
+#birthdateDisplay {
+    color: rgba(146, 146, 146, 0.808);
+    font-size: 20px;
 }
 
 .assistant {
     color: blue;
 }
 
+/* 콘텐츠 컨테이너 스타일 */
 .intro-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 500px;
+    z-index: 1;
 }
 
 .intro-container img {
-    width: 50%;
-    min-width: 300px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 20px;
+}
+
+/* 서버 에러 스타일 */
+.server_error {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    border: 2px solid #333;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: white;
+}
+
+/* 버튼 스타일 */
+.server_error button {
+    width: 100%;
+    max-width: 250px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 25px;
+    background-color: #b60fa8;
+    color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.downloading-container {
+    text-align: center;
 }
 
 #loader {
     font-size: 25px;
     text-align: center;
+}
+
+.upper-ad{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    min-width: 350px;
+    min-height: 200px;
+    border: 2px solid #333; /* 테두리 설정 */
 }
 
 .kakao-ad {
@@ -74,6 +105,33 @@ body {
     min-width: 350px;
     min-height: 200px;
 }
+
+.header-desc{
+    display: flex;
+    justify-content: center;
+    border-radius: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+    min-width: 350px;
+    max-width: 650px;
+    min-height: 150px;
+    margin:30px;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.result-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    margin: 20px;
+    padding: 30px;
+    min-width: 350px;
+    max-width: 600px;
+    min-height: 200px;
+    background-color: rgba(253, 253, 253, 0.4);
+}
+
 
 /* 모달 기본 스타일 */
 #birthdateModal {
@@ -100,21 +158,6 @@ body {
     flex-direction: column;
     justify-content: space-between;
     height: 200px;
-}
-
-/* 닫기 버튼 스타일 */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
 }
 
 /* 버튼 컨테이너 스타일 */
@@ -182,3 +225,17 @@ body {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    .intro-container, .server_error, .upper-ad, .kakao-ad, .header-desc, .result-content {
+        width: 90%;
+        max-width: 100%;
+    }
+
+    .server_error button {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+

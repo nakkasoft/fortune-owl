@@ -14,7 +14,7 @@
 <body>
     <div id="intro" class="intro-container">
         <h1>AI 운세를 알려드립니다.</h1>
-        <img src="fortune-owl.jpg" alt="fortune-owl" width="50%">
+        <img src="fortune-owl.jpg" alt="fortune-owl" width="30%">
 
         <div class="birthbutton-container">
             <button onclick="openBirthdateModal()">생년월일 선택</button>
@@ -53,8 +53,11 @@
         </div>
     </div>
     <div id="result" class="result-container" style="display: none;">
+        <div class="header-desc">AI 사주</div>
+        <div class="result-content"></div>
     </div>
     <div id="upper-ad" class="upper-ad" style="display:none;">
+        <h2>Kakao Ad Area</h2>
         <ins class="kakao_ad_area" style="display:none;"
             data-ad-unit = "DAN-9COScidKxD4Zk9eJ"
             data-ad-width = "320"
@@ -62,7 +65,8 @@
         <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
     </div>
     <div id="server_error" class="server_error" style="display: none;">
-        <p>서버에 문제가 있습니다. 다시시도 하세요.</p>
+        <p><h1>서버에 문제가 있습니다. 다시시도 하세요.</h1></p>
+        <button onclick="going_first()">첫 화면으로</button>
     </div>
     <div id="downloading" class="downloading-container" style="display: none;">
         <div id="loader" class="loader" style="display: block;">
@@ -171,6 +175,8 @@
 
         const url = 'http://146.56.116.10:3000/fortuneTell';
         const result_container = document.querySelector('.result-container');
+        const result_content = document.querySelector('.result-content');
+        
         let userMessages = [];
         let assistantMessages = [];
         let myDateTime = ''
@@ -198,7 +204,11 @@
         function loading_fortune() {
             document.getElementById("intro").style.display = "none";
             show_downloading();
-            askTodayFortune();
+            askTodayFortuneMock();
+        }
+        function going_first() {
+            hide_error();
+            document.getElementById("intro").style.display = "block";
         }
 
         function startToday() {
@@ -216,6 +226,28 @@
 
         function startTomorrow() {
             loading_fortune();
+        }
+
+        function askTodayFortuneMock() {
+            const data = {"assistant": "2024년 8월 11일, 당신의 운세를 상세히 전해드리겠습니다.\
+\
+금요일인 오늘은 즐거운 일들이 당신을 기다리고 있습니다. 긍정적인 에너지가 넘치는 하루가 될 것이며, 주변 사람들과의 소통이 활발할 것입니다. 어떤 일이든 열심히 하고 적극적으로 참여하면 좋은 결과를 얻을 수 있을 것입니다.\
+\
+감정적인 안정을 유지하고 자신을 위한 시간을 갖는 것이 중요합니다. 내적 안정과 평화를 유지하면서 주변 환경과의 조화를 이루는 것이 당신에게 큰 도움이 될 것입니다.\
+\
+건강에 대해서는 적절한 휴식과 올바른 식습관을 유지하는 것이 중요합니다. 신체적, 정신적으로 균형을 유지하며 긍정적인 생각을 갖는 것이 건강에 이로울 것입니다.\
+\
+오늘은 변화의 기회가 찾아올 수 있는 날이니 새로운 도전에 대해 열린 마음으로 받아들이면 좋은 결과를 얻을 수 있을 것입니다. 당신에게 긍정적인 변화가 찾아오길 기대해봅니다.\
+\
+이렇게 종합적으로 살펴본 오늘의 운세는 긍정적이고 행운이 당신과 함께할 것이라고 전해드립니다. 행운을 만나는 소중한 순간을 즐기며 하루를 시작해보세요. 좋은 하루 되시길 바랍니다!"}
+
+                show_result();
+                hide_downloading();
+                show_toss();
+    
+                const astrologerMessage = document.createElement('div');
+                astrologerMessage.innerHTML = `${data.assistant}`;
+                result_content.appendChild(astrologerMessage);
         }
 
         const askTodayFortune = async () => {
@@ -236,35 +268,22 @@
                 console.log(error);
                 hide_downloading();
                 show_error();
-                isSuccess = true;
+                isSuccess = false;
             });
 
-            if ( isSuccess == true){
+            if (isSuccess == true){
                 const data = await response.json();
-            
-/*
-            const data = {"assistant": "2024년 8월 11일, 당신의 운세를 상세히 전해드리겠습니다.\
-\
-금요일인 오늘은 즐거운 일들이 당신을 기다리고 있습니다. 긍정적인 에너지가 넘치는 하루가 될 것이며, 주변 사람들과의 소통이 활발할 것입니다. 어떤 일이든 열심히 하고 적극적으로 참여하면 좋은 결과를 얻을 수 있을 것입니다.\
-\
-감정적인 안정을 유지하고 자신을 위한 시간을 갖는 것이 중요합니다. 내적 안정과 평화를 유지하면서 주변 환경과의 조화를 이루는 것이 당신에게 큰 도움이 될 것입니다.\
-\
-건강에 대해서는 적절한 휴식과 올바른 식습관을 유지하는 것이 중요합니다. 신체적, 정신적으로 균형을 유지하며 긍정적인 생각을 갖는 것이 건강에 이로울 것입니다.\
-\
-오늘은 변화의 기회가 찾아올 수 있는 날이니 새로운 도전에 대해 열린 마음으로 받아들이면 좋은 결과를 얻을 수 있을 것입니다. 당신에게 긍정적인 변화가 찾아오길 기대해봅니다.\
-\
-이렇게 종합적으로 살펴본 오늘의 운세는 긍정적이고 행운이 당신과 함께할 것이라고 전해드립니다. 행운을 만나는 소중한 순간을 즐기며 하루를 시작해보세요. 좋은 하루 되시길 바랍니다!"}
-*/
+
                 show_result();
                 hide_downloading();
                 show_toss();
     
                 const astrologerMessage = document.createElement('div');
-                astrologerMessage.classList.add('chat-message');
                 astrologerMessage.innerHTML = `<p class='assistant'>${data.assistant}</p>`;
-                result_container.appendChild(astrologerMessage);
-            }
-            
+                result_content.appendChild(astrologerMessage);
+            }else{
+                
+            }            
         };
     </script>
 </body>
