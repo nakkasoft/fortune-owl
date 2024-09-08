@@ -70,6 +70,7 @@
     <div id="server_error" class="server_error" style="display: none;">
         <p><h1>서버에 문제가 있습니다. 다시시도 하세요.</h1></p>
         <button onclick="going_first()">첫 화면으로</button>
+        <div class="errorlog"></div>
     </div>
     <div id="downloading" class="downloading-container" style="display: none;">
         <div id="loader" class="loader" style="display: block;">
@@ -174,7 +175,7 @@
             }
         }
 
-        const url = 'http://146.56.116.10:3000/fortuneTell';
+        const url = 'https://fortuneowl.duckdns.org:3001/fortuneTell';
         const result_container = document.querySelector('.result-container');
         const result_content = document.querySelector('.result-content');
         
@@ -266,6 +267,11 @@
                 hide_downloading();
                 show_error();
                 isSuccess = false;
+
+                const errorlog = document.querySelector('.errorlog');
+                const errorMessage = document.createElement('div');
+                errorMessage.innerHTML = `${error}`;
+                errorlog.appendChild(errorMessage);
             });
 
             if (isSuccess == true){
