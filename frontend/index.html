@@ -12,80 +12,78 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body onload="init()">
     <div id="layout" class="layout-container">
-    
-    <div id="intro" class="intro-container">
-        <h1>AI 운세를 알려드립니다.</h1>
-        <img src="fortune-owl.jpg" alt="fortune-owl" width="30%">
-
-        <div class="birthbutton-container">
-            <button onclick="openBirthdateModal()">생년월일 선택</button>
+        <div id="upper-ad" class="upper-ad">
+            <ins class="kakao_ad_area" style="display:none;"
+                data-ad-unit = "DAN-9COScidKxD4Zk9eJ"
+                data-ad-width = "320"
+                data-ad-height = "50"></ins>
+            <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
         </div>
-        <p id="birthdateDisplay">생년월일이 선택되지 않았습니다.</p>
-        <!-- 생년월일 입력 모달 -->
-        <div id="birthdateModal">
-            <div class="modal-content">
-                <!-- <span class="close" onclick="closeBirthdateModal()">&times;</span> -->
-                <h2>생년월일/시간 선택</h2>
-                <form>
-                    <label for="year">연도:</label>
-                    <select id="year"></select>
+        <div id="intro" class="intro-container">
+            <h1>AI 운세를 알려드립니다.</h1>
+            <img src="fortune-owl.jpg" alt="fortune-owl" width="30%">
 
-                    <label for="month">월:</label>
-                    <select id="month"></select>
+            <div class="birthbutton-container">
+                <button onclick="openBirthdateModal()">생년월일 선택</button>
+            </div>
+            <p id="birthdateDisplay">생년월일이 선택되지 않았습니다.</p>
+            <!-- 생년월일 입력 모달 -->
+            <div id="birthdateModal">
+                <div class="modal-content">
+                    <!-- <span class="close" onclick="closeBirthdateModal()">&times;</span> -->
+                    <h2>생년월일/시간 선택</h2>
+                    <form>
+                        <label for="year">연도:</label>
+                        <select id="year"></select>
 
-                    <label for="day">일:</label>
-                    <select id="day"></select>
-                <br>
+                        <label for="month">월:</label>
+                        <select id="month"></select>
 
-                    <label for="time">시간:</label>
-                    <select id="time"></select>
+                        <label for="day">일:</label>
+                        <select id="day"></select>
+                        <br>
 
-                    <div class="modalbutton-container">
-                        <button type="button" onclick="submitBirthdate()">확인</button>
-                        <button type="button" onclick="closeBirthdateModal()">취소</button>
-                    </div>
-                </form>
+                        <label for="time">시간:</label>
+                        <select id="time"></select>
+
+                        <div class="modalbutton-container">
+                            <button type="button" onclick="submitBirthdate()">확인</button>
+                            <button type="button" onclick="closeBirthdateModal()">취소</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="button-container">
+                <button onclick="startToday()">오늘의 운세</button>
+                <button onclick="startTomorrow()">내일의 운세</button>
             </div>
         </div>
-        <div class="button-container">
-            <button onclick="startToday()">오늘의 운세</button>
-            <button onclick="startTomorrow()">내일의 운세</button>
+        <div id="result" class="result-container" style="display: none;">
+            <div class="header-desc">AI 사주</div>
+            <div class="result-content"></div>
+            <h2>추가로 링크를 눌러 작은 정성 배풀어주시면 더욱 좋은 운이 있으실겁니다. =></h2> <a href='https://toss.me/'>복채 보내기</a>
+        </div>
+        <div id="server_error" class="server_error" style="display: none;">
+            <p><h1>서버에 문제가 있습니다. 다시시도 하세요.</h1></p>
+            <button onclick="going_first()">첫 화면으로</button>
+            <div class="errorlog"></div>
+        </div>
+        <div id="downloading" class="downloading-container" style="display: none;">
+            <div id="loader" class="loader" style="display: block;">
+                <i class="fa fa-spinner fa-spin" style="color:white"></i>
+            </div>
+            <h1>운세를 받아 오는 중입니다.</h1>
+        </div>
+        <div id="bottom-ad" class="bottom-ad">
+            <ins class="kakao_ad_area" style="display:none;"
+                data-ad-unit = "DAN-qpCGJeZlO4lDEXdk"
+                data-ad-width = "320"
+                data-ad-height = "50"></ins>
+            <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
         </div>
     </div>
-    <div id="result" class="result-container" style="display: none;">
-        <div class="header-desc">AI 사주</div>
-        <div class="result-content"></div>
-        <h2>추가로 링크를 눌러 작은 정성 배풀어주시면 더욱 좋은 운이 있으실겁니다. =></h2> <a href='https://toss.me/'>복채 보내기</a>
-    </div>
-    <div id="upper-ad" class="upper-ad" style="display:none;">
-        <h2>Kakao Ad Area</h2>
-        <ins class="kakao_ad_area" style="display:none;"
-            data-ad-unit = "DAN-9COScidKxD4Zk9eJ"
-            data-ad-width = "320"
-            data-ad-height = "50"></ins>
-        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-    </div>
-    <div id="server_error" class="server_error" style="display: none;">
-        <p><h1>서버에 문제가 있습니다. 다시시도 하세요.</h1></p>
-        <button onclick="going_first()">첫 화면으로</button>
-        <div class="errorlog"></div>
-    </div>
-    <div id="downloading" class="downloading-container" style="display: none;">
-        <div id="loader" class="loader" style="display: block;">
-            <i class="fa fa-spinner fa-spin"></i>
-        </div>
-        <h1>운세를 받아 오는 중입니다.</h1>
-    </div>
-    <div class="kakao-ad">
-        <ins class="kakao_ad_area" style="display:none;"
-            data-ad-unit = "DAN-qpCGJeZlO4lDEXdk"
-            data-ad-width = "320"
-            data-ad-height = "50"></ins>
-        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-    </div>
-</div>
     <script>
         // 연도, 월, 일 선택 요소 전역 변수로 선언
         const yearSelect = document.getElementById('year');
@@ -110,6 +108,11 @@
             option.value = month;
             option.text = month;
             monthSelect.appendChild(option);
+        }
+
+        // init
+        function init() {
+            //document.getElementById('bottom-ad').style.display = "none";
         }
 
         // 일 선택 옵션 업데이트 함수
@@ -193,14 +196,16 @@
             document.getElementById('server_error').style.display = "none";
         }
         function show_downloading() {
-            document.getElementById('upper-ad').style.display = "block";
+            console.log("show_downloading");
+            //document.getElementById('bottom-ad').style.display = "block";
             document.getElementById('downloading').style.display = "block";
         }
         function hide_downloading() {
-            document.getElementById('upper-ad').style.display = "none";
+            //document.getElementById('bottom-ad').style.display = "none";
             document.getElementById('downloading').style.display = "none";
         }
         function loading_fortune() {
+            console.log("loading_fortune");
             document.getElementById("intro").style.display = "none";
             show_downloading();
             askTodayFortune();
@@ -259,7 +264,7 @@
                 },
                 body: JSON.stringify({
                     "myDateTime": myDateTime,
-                    "userMessage": "오늘 운세를 아주 상세 하고 길게 알려줘."
+                    "userMessage": "오늘의 운세와 연애운, 재물운에 대해서 알려 주세요. 양식은 제 생일은 다시 말씀 해주실 필요 없으며, 오늘의 날짜 부터 자세히 이야기 해주세요. div에 바로 삽입 가능한 형태로 주세요."
                 })
             }).catch((error) => {
                 // Your error is here!

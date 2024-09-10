@@ -83,6 +83,8 @@ h2 {
 
 .downloading-container {
     text-align: center;
+    margin-top: 120px;
+    margin-bottom: 120px;
 }
 
 #loader {
@@ -94,19 +96,18 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     min-width: 350px;
-    min-height: 200px;
-    border: 2px solid #333; /* 테두리 설정 */
+    min-height: 50px;
 }
 
 .kakao-ad {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 10px;
     min-width: 350px;
-    min-height: 200px;
+    min-height: 50px;
 }
 
 .result-container{
