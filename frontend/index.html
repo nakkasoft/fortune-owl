@@ -63,7 +63,14 @@
         <div id="result" class="result-container" style="display: none;">
             <div class="header-desc">AI 사주</div>
             <div class="result-content"></div>
-            <h2>추가로 링크를 눌러 작은 정성 배풀어주시면 더욱 좋은 운이 있으실겁니다. =></h2> <a href='https://toss.me/'>복채 보내기</a>
+            <div id="result-kakaopay-link" class="kakaopay-link">
+                <h2>아래 버튼를 눌러 작은 정성을 배풀어주시면<br>더욱 좋은 일이 있으실 겁니다.</h2>
+                <a href='https://qr.kakaopay.com/FGmpVT2wl'><img width="250px" src="KakaoPay_image.png"/></a>
+            </div>
+            <div id="result-kakaopay-qr" class="kakaopay-qr">
+                <h2>아래 QR을 통해 작은 정성 배풀어주시면<br>더욱 좋은 일이 있으실 겁니다.</h2>
+                <img width="250px" src="KakaoPay_QR.png"/>
+            </div>
         </div>
         <div id="server_error" class="server_error" style="display: none;">
             <p><h1>서버에 문제가 있습니다. 다시시도 하세요.</h1></p>
@@ -72,7 +79,7 @@
         </div>
         <div id="downloading" class="downloading-container" style="display: none;">
             <div id="loader" class="loader" style="display: block;">
-                <i class="fa fa-spinner fa-spin" style="color:white"></i>
+                <i class="fa fa-spinner fa-pulse fa-2x fa-fw" style="color:white"></i>
             </div>
             <h1>운세를 받아 오는 중입니다.</h1>
         </div>
@@ -92,6 +99,8 @@
         const timeSelect = document.getElementById('time');
         const modal = document.getElementById('birthdateModal');
         let isDteSelect = false;
+
+        var isMobile = /Mobi/i.test(window.navigator.userAgent); // "Mobi" 가 User agent에 포함되어 있으면 모바일
 
         // 연도 선택 옵션 생성
         const currentYear = new Date().getFullYear();
@@ -113,6 +122,7 @@
         // init
         function init() {
             //document.getElementById('bottom-ad').style.display = "none";
+            //alert(isMobile);
         }
 
         // 일 선택 옵션 업데이트 함수
@@ -179,7 +189,6 @@
         }
 
         const url = 'https://fortuneowl.duckdns.org:3001/fortuneTell';
-        const result_container = document.querySelector('.result-container');
         const result_content = document.querySelector('.result-content');
         
         let userMessages = [];
@@ -188,6 +197,13 @@
 
         function show_result() {
             document.getElementById('result').style.display = "block";
+            if(isMobile == false){
+                document.getElementById('result-kakaopay-link').style.display = "none";
+                document.getElementById('result-kakaopay-qr').style.display = "flex";
+            }else{
+                document.getElementById('result-kakaopay-link').style.display = "flex";
+                document.getElementById('result-kakaopay-qr').style.display = "none";
+            }
         }
         function show_error() {
             document.getElementById('server_error').style.display = "block";
