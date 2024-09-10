@@ -1,4 +1,4 @@
-const apiKey = ""
+const apiKey = "sk-"
 const serverless = require('serverless-http');
 const OpenAI = require("openai");
 const express = require('express')
@@ -9,7 +9,7 @@ const openai = new OpenAI({apiKey: apiKey});
 
 //CORS 이슈 해결
 let corsOptions = {
-    origin: 'http://127.0.0.1:5500',
+    origin: 'https://fortune-owl.pages.dev',
     credentials: true
 }
 app.use(cors(corsOptions));
