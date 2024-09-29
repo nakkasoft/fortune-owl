@@ -42,11 +42,11 @@ app.post('/fortuneTell', async function (req, res) {
 
     if (requestType == "tomorrow") {
         messages.push(
-            JSON.parse('{"role": "user", "content": "'+String(addingMesageToday)+'"}')
+            JSON.parse('{"role": "user", "content": "'+String(addingMesageTmr)+'"}')
         )
     }else{
         messages.push(
-            JSON.parse('{"role": "user", "content": "'+String(addingMesageTmr)+'"}')
+            JSON.parse('{"role": "user", "content": "'+String(addingMesageToday)+'"}')
         )
     }
 
