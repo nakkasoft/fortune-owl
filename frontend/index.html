@@ -22,7 +22,7 @@
             <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
         </div>
         <div id="intro" class="intro-container">
-            <h1>AI 운세를 알려드립니다.</h1>
+            <h1>AI가 운세를 알려드립니다.</h1>
             <img src="fortune-owl.jpg" alt="fortune-owl" width="30%">
 
             <div class="birthbutton-container">
@@ -56,8 +56,8 @@
                 </div>
             </div>
             <div class="button-container">
-                <button onclick="startToday()">오늘의 운세</button>
-                <button onclick="startTomorrow()">내일의 운세</button>
+                <button onclick="startFortue('today')">오늘의 운세</button>
+                <button onclick="startFortue('tomorrow')">내일의 운세</button>
             </div>
         </div>
         <div id="result" class="result-container" style="display: none;">
@@ -102,12 +102,21 @@
 
         var isMobile = /Mobi/i.test(window.navigator.userAgent); // "Mobi" 가 User agent에 포함되어 있으면 모바일
 
+        // init
+        function init() {
+            //document.getElementById('bottom-ad').style.display = "none";
+            //alert(isMobile);
+        }
+
         // 연도 선택 옵션 생성
         const currentYear = new Date().getFullYear();
         for (let year = currentYear; year >= 1900; year--) {
             const option = document.createElement('option');
             option.value = year;
             option.text = year;
+            if (year == "1984"){
+                option.selected = true;
+            }
             yearSelect.appendChild(option);
         }
 
@@ -116,13 +125,10 @@
             const option = document.createElement('option');
             option.value = month;
             option.text = month;
+            if (month == "7"){
+                option.selected = true;
+            }
             monthSelect.appendChild(option);
-        }
-
-        // init
-        function init() {
-            //document.getElementById('bottom-ad').style.display = "none";
-            //alert(isMobile);
         }
 
         // 일 선택 옵션 업데이트 함수
@@ -190,9 +196,7 @@
 
         const url = 'https://fortuneowl.duckdns.org:3001/fortuneTell';
         const result_content = document.querySelector('.result-content');
-        
-        let userMessages = [];
-        let assistantMessages = [];
+
         let myDateTime = ''
 
         function show_result() {
@@ -220,18 +224,20 @@
             //document.getElementById('bottom-ad').style.display = "none";
             document.getElementById('downloading').style.display = "none";
         }
-        function loading_fortune() {
+        function loading_fortune(dayType) {
             console.log("loading_fortune");
             document.getElementById("intro").style.display = "none";
             show_downloading();
-            askTodayFortune();
+            askFortune(dayType);
         }
         function going_first() {
             hide_error();
             document.getElementById("intro").style.display = "block";
         }
 
-        function startToday() {
+        function startFortue(dayType) {
+            console.log(dayType);
+
             const date = `${yearSelect.value}-${monthSelect.value}-${daySelect.value}`;
             const hour = `${timeSelect.value}`;
 
@@ -241,14 +247,10 @@
             }
 
             myDateTime = date + hour;
-            loading_fortune();
+            loading_fortune(dayType);
         }
 
-        function startTomorrow() {
-            loading_fortune();
-        }
-
-        function askTodayFortuneMock() {
+        function askFortuneMock() {
             const data = {"assistant": "2024년 8월 11일, 당신의 운세를 상세히 전해드리겠습니다.\
 \
 금요일인 오늘은 즐거운 일들이 당신을 기다리고 있습니다. 긍정적인 에너지가 넘치는 하루가 될 것이며, 주변 사람들과의 소통이 활발할 것입니다. 어떤 일이든 열심히 하고 적극적으로 참여하면 좋은 결과를 얻을 수 있을 것입니다.\
@@ -269,7 +271,7 @@
                 result_content.appendChild(astrologerMessage);
         }
 
-        const askTodayFortune = async () => {
+        const askFortune = async (dayType) => {
             console.log("askFortune")
             let isSuccess = true;
 
@@ -280,7 +282,7 @@
                 },
                 body: JSON.stringify({
                     "myDateTime": myDateTime,
-                    "userMessage": "오늘의 운세와 연애운, 재물운에 대해서 알려 주세요. 양식은 제 생일은 다시 말씀 해주실 필요 없으며, 오늘의 날짜 부터 자세히 이야기 해주세요. div에 바로 삽입 가능한 형태로 주세요."
+                    "requestType": dayType
                 })
             }).catch((error) => {
                 // Your error is here!
