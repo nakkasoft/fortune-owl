@@ -1,11 +1,12 @@
-const apiKey = "sk-"
+const apiKey = ""
 const serverless = require('serverless-http');
 const OpenAI = require("openai");
 const express = require('express')
 var cors = require('cors')
 const app = express()
+require("dotenv").config();
 
-const openai = new OpenAI({apiKey: apiKey});
+const openai = new OpenAI({apiKey: process.env.SECRET_KEY});
 
 //CORS 이슈 해결
 let corsOptions = {
