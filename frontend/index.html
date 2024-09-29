@@ -82,7 +82,7 @@
         </div>
         <div id="result" class="result-container" style="display: none;">
             <div class="header-desc">올빼미가 점지한 당신의 운명</div>
-            <div class="result-content"></div>
+            <div id="result-content" class="result-content"></div>
             <div class="retry-button">
                 <button onclick="going_first()">다시보기</button>
             </div>
@@ -251,12 +251,16 @@
             console.log("loading_fortune");
             document.getElementById("intro").style.display = "none";
             show_downloading();
-            askFortune(dayType);
+            askFortuneMock(dayType);
         }
         function going_first() {
+            var link = 'https://fortune-owl.pages.dev/';
+            location.href=link;
+            /*
             hide_error();
             document.getElementById('result').style.display = "none";
             document.getElementById("intro").style.display = "flex";
+            */
         }
 
         function startFortue(dayType) {
