@@ -24,7 +24,7 @@ h1 {
 }
 
 h2 {
-    color: rgb(71, 71, 71);
+    color: rgb(128, 128, 128);
 }
 
 #birthdateDisplay {
@@ -154,16 +154,14 @@ h2 {
     position: relative;
 }
 
-
-
 .header-desc{
     display: flex;
     justify-content: center;
     border-radius: 20px;
     align-items: center;
     margin-bottom: 20px;
-    min-height: 150px;
-    font-size: 30px;
+    min-height: 100px;
+    font-size: 25px;
     color: #bdbdbd;
     margin:30px;
     background-color: rgba(255, 255, 255, 0.4);
@@ -182,6 +180,30 @@ h2 {
     background-color: rgba(253, 253, 253, 0.4);
 }
 
+.retry-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 버튼 스타일 */
+.result-container button {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    max-width: 250px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 25px;
+    background-color: #b60fa8;
+    color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
 /* 모달 기본 스타일 */
 #birthdateModal {

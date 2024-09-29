@@ -2,18 +2,27 @@
 <html>
 
 <head>
+    <title>미래올빼미</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YBF7YBH637"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-YBF7YBH637');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-YBF7YBH637');
     </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>미래올빼미</title>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
         integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -31,7 +40,7 @@
             <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
         </div>
         <div id="intro" class="intro-container">
-            <h1>AI가 운세를 알려드립니다.</h1>
+            <h1>올빼미가 운세를 알려드립니다.</h1>
             <img src="fortune-owl.jpg" alt="fortune-owl" width="30%">
 
             <div class="birthbutton-container">
@@ -70,8 +79,11 @@
             </div>
         </div>
         <div id="result" class="result-container" style="display: none;">
-            <div class="header-desc">AI 사주</div>
+            <div class="header-desc">올빼미가 점지한 당신의 운명</div>
             <div class="result-content"></div>
+            <div class="retry-button">
+                <button onclick="going_first()">다시보기</button>
+            </div>
             <div id="result-kakaopay-link" class="kakaopay-link">
                 <h2>아래 버튼를 눌러 작은 정성을 배풀어주시면<br>더욱 좋은 일이 있으실 겁니다.</h2>
                 <a href='https://qr.kakaopay.com/FGmpVT2wl'><img width="250px" src="KakaoPay_image.png"/></a>
@@ -237,11 +249,12 @@
             console.log("loading_fortune");
             document.getElementById("intro").style.display = "none";
             show_downloading();
-            askFortune(dayType);
+            askFortuneMock(dayType);
         }
         function going_first() {
             hide_error();
-            document.getElementById("intro").style.display = "block";
+            document.getElementById('result').style.display = "none";
+            document.getElementById("intro").style.display = "flex";
         }
 
         function startFortue(dayType) {
@@ -259,7 +272,7 @@
             loading_fortune(dayType);
         }
 
-        function askFortuneMock() {
+        function askFortuneMock(dayType) {
             const data = {"assistant": "2024년 8월 11일, 당신의 운세를 상세히 전해드리겠습니다.\
 \
 금요일인 오늘은 즐거운 일들이 당신을 기다리고 있습니다. 긍정적인 에너지가 넘치는 하루가 될 것이며, 주변 사람들과의 소통이 활발할 것입니다. 어떤 일이든 열심히 하고 적극적으로 참여하면 좋은 결과를 얻을 수 있을 것입니다.\
