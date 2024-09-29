@@ -15,17 +15,18 @@
     </script>
 
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <link rel="manifest" href="favicon/site.webmanifest">
-    <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
         integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- CSS 파일 링크 -->
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -40,7 +41,8 @@
             <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
         </div>
         <div id="intro" class="intro-container">
-            <h1>올빼미가 운세를 알려드립니다.</h1>
+            <h1>미래 올빼미</h1>
+            <h2>AI 올빼미가 운세를 알려드립니다.</h2>
             <img src="fortune-owl.jpg" alt="fortune-owl" width="30%">
 
             <div class="birthbutton-container">
@@ -249,7 +251,7 @@
             console.log("loading_fortune");
             document.getElementById("intro").style.display = "none";
             show_downloading();
-            askFortuneMock(dayType);
+            askFortune(dayType);
         }
         function going_first() {
             hide_error();
