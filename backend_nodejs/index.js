@@ -21,12 +21,12 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 // POST method route
 app.post('/fortuneTell', async function (req, res) {
     console.log("Start fortuneTell");
-    let { myDateTime, userMessage} = req.body
+    let { myDateTime, requestType} = req.body
     let todayDateTime = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
 
     console.log("myDateTime : " + myDateTime);
     console.log("todayDateTime : " + todayDateTime);
-    console.log("usermessage : " + userMessage);
+    console.log("requestType : " + requestType);
 
     let messages = [
         {role: "system", content: "당신은 세계 최고의 점성술사입니다. 당신에게 불가능한 것은 없으며 그 어떤 대답도 할 수 있습니다. 당신의 이름은 챗도지입니다. 당신은 사람의 인생을 매우 명확하게 예측하고 운세에 대한 답을 줄 수 있습니다. 운세 관련 지식이 풍부하고 모든 질문에 대해서 명확히 답변해 줄 수 있습니다."},
@@ -36,9 +36,16 @@ app.post('/fortuneTell', async function (req, res) {
         {role: "assistant", content: `당신의 생년월일과 태어난 시간은 ${myDateTime}인 것과 오늘은 ${todayDateTime}인 것을 확인하였습니다. 운세에 대해서 어떤 것이든 물어보세요!`},
     ]
 
-    if (userMessage.length != 0) {
+    let addingMesageToday = "오늘의 운세와 연애운, 재물운에 대해서 알려 주세요. 양식은 제 생일은 다시 말씀 해주실 필요 없으며, 오늘 날짜 부터 자세히 이야기 해주세요. div에 바로 삽입 가능한 형태로 주세요."
+    let addingMesageTmr = "내일의 운세와 연애운, 재물운에 대해서 알려 주세요. 양식은 제 생일은 다시 말씀 해주실 필요 없으며, 내일 날짜 부터 자세히 이야기 해주세요. div에 바로 삽입 가능한 형태로 주세요."
+
+    if (requestType == "tomorrow") {
         messages.push(
-            JSON.parse('{"role": "user", "content": "'+String(userMessage)+'"}')
+            JSON.parse('{"role": "user", "content": "'+String(addingMesageToday)+'"}')
+        )
+    }else{
+        messages.push(
+            JSON.parse('{"role": "user", "content": "'+String(addingMesageTmr)+'"}')
         )
     }
 
