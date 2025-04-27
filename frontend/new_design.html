@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>운세의 비밀</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #1a1a1a;
+      color: #f5f5f5;
+      text-align: center;
+    }
+
+    header {
+      position: relative;
+      z-index: 10; /* 타이틀이 이미지 위에 표시되도록 설정 */
+      font-size: 2.5rem; /* 글자 크기를 키움 (기존 2rem에서 3rem으로) */
+      font-weight: bold;
+      background-color: rgba(0, 0, 0, 0.5); /* 필요 시 반투명 배경 추가 */
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: left;
+    }
+
+    .main-image {
+      width: 60%;
+      max-width: 450px;
+      border: 5px solid #444;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      background-color: #2a2a2a;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    }
+
+    .form-container select {
+      margin: 10px;
+      padding: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: #444;
+      color: #fff;
+    }
+
+    .form-container button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1.3rem;
+      background-color: #ffcc00;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      width: 70%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-container button:hover {
+      background-color: #e6b800;
+    }
+
+    /* Popup Styles */
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5) !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+  
+    .popup.hidden {
+      display: none;
+    }
+  
+    .popup-content {
+      background: rgba(0, 0, 0, 0.507);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.3s ease-in-out;
+    }
+  
+    .popup-content p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+  
+    .popup-content button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+  
+    .popup-content button:hover {
+      background-color: #0056b3;
+    }
+  
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Radio 선택 박스 스타일 */
+    .gender-selection {
+      display: flex;
+      gap: 10px; /* 항목 간 간격 */
+      padding: 15px 10px;
+      justify-content: center; /* 가운데 정렬 */
+    }
+
+    .gender-selection input[type=radio] + label{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 140px;
+      height: 40px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .gender-selection input[type="radio"] {
+      display: none; /* 라디오 버튼 숨김 */
+    }
+
+    /* 선택된 상태 */
+    .gender-selection input[type="radio"]:checked + label {
+      background-color: #007bff; /* 선택된 배경색 */
+      color: #fff; /* 선택된 텍스트 색상 */
+      border-color: #007bff; /* 선택된 테두리 색상 */
+      box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* 선택된 항목 강조 */
+    }
+  </style>
+  
+</head>
+<body>
+  <header>운세의 비밀</header>
+  <div class="container">
+    <img src="./resources/new_main.png" alt="점집 이미지" class="main-image">
+    <div class="form-container">
+      <form id="birth-form">
+        <select id="year" name="year">
+          <option value="">출생 연도</option>
+          <!-- Add year options dynamically -->
+          <script>
+            const yearSelect = document.getElementById('year');
+            const currentYear = new Date().getFullYear();
+            for (let year = currentYear; year >= 1930; year--) {
+              const option = document.createElement('option');
+              option.value = year;
+              option.textContent = year;
+              yearSelect.appendChild(option);
+            }
+          </script>
+        </select>
+        <select id="month" name="month">
+          <option value="">출생 월</option>
+          <!-- Add month options -->
+          <script>
+            const monthSelect = document.getElementById('month');
+            for (let month = 1; month <= 12; month++) {
+              const option = document.createElement('option');
+              option.value = month;
+              option.textContent = month;
+              monthSelect.appendChild(option);
+            }
+          </script>
+        </select>
+        <select id="day" name="day">
+          <option value="">출생 일</option>
+          <!-- Add day options -->
+          <script>
+            const daySelect = document.getElementById('day');
+            for (let day = 1; day <= 31; day++) {
+              const option = document.createElement('option');
+              option.value = day;
+              option.textContent = day;
+              daySelect.appendChild(option);
+            }
+          </script>
+        </select>
+        <!-- 성별 선택 -->
+        <div class="gender-selection">
+          <input type="radio" id="male" name="gender" value="male" checked>
+          <label for="male">남성</label>
+          <input type="radio" id="female" name="gender" value="female">
+          <label for="female">여성</label>
+        </div>
+
+        <!-- 양력/음력 선택 -->
+        <div class="gender-selection">
+          <input type="radio" id="solar" name="calendar" value="solar" checked>
+          <label for="solar">양력</label>
+          <input type="radio" id="lunar" name="calendar" value="lunar">
+          <label for="lunar">음력</label>
+        </div>
+
+        <button type="button" id="submit-button">내 운세 확인 하기</button>
+      </form>
+    </div>
+    <!-- Custom Popup -->
+    <div id="custom-popup" class="popup hidden">
+      <div class="popup-content">
+        <p id="popup-message">생년월일이 선택되지 않았습니다</p>
+        <button id="popup-close">확인</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('submit-button').addEventListener('click', function () {
+      const year = document.getElementById('year').value;
+      const month = document.getElementById('month').value;
+      const day = document.getElementById('day').value;
+  
+      if (!year || !month || !day) {
+        const popup = document.getElementById('custom-popup');
+        const message = document.getElementById('popup-message');
+        message.textContent = "생년월일이 선택되지 않았습니다";
+        popup.classList.remove('hidden');
+      } else {
+        alert("운세를 확인합니다!"); // 이후 실제 동작 추가
+      }
+    });
+  
+    document.getElementById('popup-close').addEventListener('click', function () {
+      const popup = document.getElementById('custom-popup');
+      popup.classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
